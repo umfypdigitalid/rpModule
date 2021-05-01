@@ -1,0 +1,23 @@
+{
+  "name": "rpmodule",
+  "version": "1.0.0",
+  "description": "rpModule",
+  "main": "index.js",
+  "dependencies": {
+    "jquery": "^3.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umfypdigitalid/rpModule.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umfypdigitalid/rpModule/issues"
+  },
+  "homepage": "https://github.com/umfypdigitalid/rpModule#readme"
+}
