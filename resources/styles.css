@@ -120,8 +120,10 @@
     width: 100%;
   }
 
-  .submit-btn {
-    width: 100%;
+  .sign-btn{
+    width:45%;
+    margin-left: 5px;
+    margin-right: 5px;
     text-align: center;
     color: #f2f2f2;
     background-color: #238636;
@@ -131,10 +133,21 @@
     font-weight: 500;
   }
 
+  .submit-btn {
+    width: 100%;
+  }
+
   .login {
     background-color: #0d1117;
     padding-bottom: 50px;
     font-weight: 400;
+  }
+
+  .forgot{
+    color: #238636;
+    text-align: right;
+    font-size: small;
+    margin-bottom: 10px;
   }
 
   /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */

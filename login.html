@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="resources/styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="JS/web3.min.js"></script>
+    <!--<script type="text/javascript" src="JS/web3.js"></script>-->
+    
 </head>
 
 <body>
@@ -17,7 +18,7 @@
 
     <div class="navbar">
         <a href="index.html">Home</a>
-        <a href="#">Link</a>
+        <a href="payment.html">Payment</a>
         <a href="#">Link</a>
         <a href="login.html" class="right active">Login</a>
     </div>
@@ -37,7 +38,20 @@
                 <br/>
                 <input type="password" class="input_block" name="password" id="password" autofocus="autofocus">
             </div>
-            <input type="submit" class="submit-btn" name="sign_in" value="Sign In">
+            <div class="forgot">
+                <a href="#">Forgot passowrd?</a>
+            </div>
+            <div class="submit-btn">
+                <input type="submit" class="sign-btn" name="sign_in" value="Sign In">
+                <button type="button" class="sign-btn" id="digital_sign_in" onclick="click()">
+                    <script type="text/javascript">
+                    function click(){
+                        alert('Hello world!');
+                        location.href = "#";
+                    }
+                </script>Digital sign in</button>
+                <button type="button" onclick="alert('Hello world!')">Click Me!</button>
+            </div>
         </div>
     </div>
 
