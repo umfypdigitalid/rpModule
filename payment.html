@@ -8,6 +8,7 @@
     <script type="text/javascript" src="JS/login2.min.js"></script>
     <script type="text/javascript" src="JS/jquery.qrcode.js"></script>
     <script type="text/javascript" src="JS/qrcode.vid.js"></script>
+    <script type="text/javascript" src="JS/qr.js"></script>
 </head>
 <body>
     <div class="header">
@@ -22,14 +23,9 @@
         <a href="login.html" class="right active">Login</a>
     </div>
 
-    <div id="qrcodeCanvas" class="qrcanvas">
-        <script type="text/javascript">
-            jQuery('#qrcodeCanvas').qrcode({
-                class: "tableformat",
-                text: '{test}'
-            });
-        </script>
-        <canvas height="256" width="256">
+    <div id = 'qr' class="qrcanvas">
+        <div id="qrcodeCanvas"></div>
     </div>
+    <div id="countdown"></div>
 </body>
 </html>
