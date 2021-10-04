@@ -1,20 +1,41 @@
-$(document).ready(function(){
+const refreshTimer = 2;
+var loop = 0;
+var timeleft = refreshTimer;
+
+$(function(){
+    $('#refresh').click(function(){
+        loop = 0;
+        reset();
+        countDown();
+    });
+});
+
+function start(){
     jQuery('#qrcodeCanvas').qrcode({
         class: "tableformat",
         text: generate()
     });
-})
-var timeleft = 10;
-var downloadTimer = setInterval(function(){
-  if(timeleft <= 0){
-    document.getElementById("countdown").innerHTML = "Finished";
-    reset();
-    timeleft = 10;
-  } else {
-    document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
-    timeleft -= 1;
-  }
-}, 1000);
+    countDown();
+}
+
+function countDown(){
+    $('#refresh').hide();
+    var downloadTimer = setInterval(function(){
+        if(timeleft <= 0){
+          document.getElementById("countdown").innerHTML = "Finished";
+          reset();
+          timeleft = refreshTimer;
+          loop+=1;
+        } else {
+          document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+          timeleft -= 1;
+        }
+        if(loop == 3){
+            clearInterval(downloadTimer);
+            $('#refresh').show();
+        }
+    }, 1000);
+}
 
 function reset() {
     var div = document.getElementById('qr');

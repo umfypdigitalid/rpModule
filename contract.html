@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+    <head>
+        <title>Dummy website</title>
+        <link rel="icon" href="img/title-image.ico">
+        <link rel="stylesheet" href="resources/styles.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="nodeScript/connector.js" type="module"></script>
+        </script>
+        <script type="module">
+            import {verifier} from "./nodeScript/connector.js";
+            $(function(){
+                $("#btn").click(function(){
+                    var val = parseInt($("#myInput").val());
+                    var value = verifier(val);
+                    $("#ans").html(val+" is "+value);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Dummy website</h1>
+            <p>Design to demonstrate the implementation of <b>Digital ID platform</b> for FYP.</p>
+        </div>
+        <div class="navbar">
+            <a href="index.html">Home</a>
+            <a href="payment.html">Payment</a>
+            <a href="contract.html" class="active">Contract</a>
+            <a href="login.html" class="right">Login</a>
+        </div>
+        <div>
+            <div class="form" style="color: black;background-color: white; margin-top: 10px;">
+                <label for="login_field">
+                    Odd even verifier
+                </label>
+            <br/>
+                <input type="text" class="" style="box-shadow: white; color: black; width: 100%; margin-top: 4px; margin-bottom: 15px;" id="myInput" autofocus="autofocus">
+                <button type="button" id="btn">Click Me!</button>
+                <h1 id='ans'></h1>
+            </div>
+        </div>
+    </body>
+</html>
