@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "psr-4": {
+            "MyApp\\": "D:\XAMPP\htdocs\rpModule\scripts\chat.php"
+        }
+    },
+    "require": {
+        "cboden/ratchet": "^0.4"
+    }
+}
