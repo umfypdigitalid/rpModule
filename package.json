@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "fs": "0.0.1-security",
     "http-server": "^0.12.3",
     "jquery": "^3.6.0",
+    "local": "^0.3.3",
     "nodejs": "^0.0.0",
     "printf": "^0.6.1",
-    "solc": "^0.8.1",
-    "truffle": "^5.4.3",
-    "web3": "^1.5.1"
+    "solc": "^0.8.11",
+    "truffle": "^5.4.30",
+    "web3": "^1.7.0",
+    "ws": "^8.4.2"
   },
   "devDependencies": {},
   "scripts": {

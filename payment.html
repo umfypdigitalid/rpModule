@@ -8,11 +8,13 @@
         <script type="text/javascript" src="scripts/login2.min.js"></script>
         <script type="text/javascript" src="scripts/jquery.qrcode.js"></script>
         <script type="text/javascript" src="scripts/qrcode.vid.js"></script>
-        <script type="text/javascript" src="scripts/qr.js"></script>
+        <!-- <script type="module" src="scripts/qr.js"></script> -->
         <script type="text/javascript" src="node_modules/web3/dist/web3.min.js"></script>
-        <script>
+        <!-- <script type="module" src="nodeScript/webSocket.js"></script> -->
+        <script type = "module">
+            import {start} from "./scripts/qr.js";
             $(document).ready(function(){
-                start();
+                start(1, 14);
             });
         </script>
     </head>
@@ -22,15 +24,18 @@
             <p>Design to demonstrate the implementation of <b>Digital ID platform</b> for FYP.</p>
         </div>
         <div class="navbar">
-            <a href="index.html">Home</a>
+            <a href="index.php">Home</a>
             <a href="payment.html" class="active">Payment</a>
             <a href="contract.html">Contract</a>
-            <a href="login.html" class="right">Login</a>
+            <a href="login.php" class="right">Login</a>
         </div>
         <div id = 'qr' class="qrcanvas">
             <div id="qrcodeCanvas"></div>
         </div>
-        <button type='button' id='refresh'>Refresh</button>
-        <div id="countdown"></div>
+        <div style="padding: 30px; margin: 0 auto;">
+            <button type='button' id='refresh' >Refresh</button>
+            <div id="countdown"></div>
+            <button type='button' id='send'>Scan</button>
+        </div>
     </body>
 </html>

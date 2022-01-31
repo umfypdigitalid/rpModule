@@ -5,16 +5,26 @@
         <link rel="stylesheet" href="resources/styles.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
         <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="nodeScript/connector.js" type="module"></script>
-        </script>
+        <script type="module" src="scripts/webSocket.js"></script>
+
         <script type="module">
-            import {verifier} from "./nodeScript/connector.js";
+            import {verifyClaim, verifyClaimByData} from "./scripts/RPModule.js";
             $(function(){
-                $("#btn").click(function(){
-                    var val = parseInt($("#myInput").val());
-                    var value = verifier(val);
-                    $("#ans").html(val+" is "+value);
+                
+                $("#verifyId").click(function(){
+                    var val1 = $("#contractAddr").val();
+                    var val2 = $("#claimType").val();
+                    var value = verifyClaim(val1, val2);
+                    $("#ans").text("Signature: "+value);
+                });
+                $("#verifyIdByData").click(function(){
+                    var val1 = $("#contractAddr").val();
+                    var val2 = $("#claimType").val();
+                    var val3 = $("#data").val();
+                    var value = verifyClaimByData(val1, val2, val3);
+                    $("#ans").text("Signature: "+value);
                 });
             });
         </script>
@@ -25,10 +35,10 @@
             <p>Design to demonstrate the implementation of <b>Digital ID platform</b> for FYP.</p>
         </div>
         <div class="navbar">
-            <a href="index.html">Home</a>
+            <a href="index.php">Home</a>
             <a href="payment.html">Payment</a>
             <a href="contract.html" class="active">Contract</a>
-            <a href="login.html" class="right">Login</a>
+            <a href="login.php" class="right">Login</a>
         </div>
         <div>
             <div class="form" style="color: black;background-color: white; margin-top: 10px;">
@@ -36,9 +46,15 @@
                     Odd even verifier
                 </label>
             <br/>
-                <input type="text" class="" style="box-shadow: white; color: black; width: 100%; margin-top: 4px; margin-bottom: 15px;" id="myInput" autofocus="autofocus">
-                <button type="button" id="btn">Click Me!</button>
-                <h1 id='ans'></h1>
+                <p>Contract Address</p>
+                <input type="text" class="" style="box-shadow: white; color: black; width: 100%; margin-top: 4px; margin-bottom: 15px;" id="contractAddr" autofocus="autofocus">
+                <p>Claim Type</p>
+                <input type="text" class="" style="box-shadow: white; color: black; width: 100%; margin-top: 4px; margin-bottom: 15px;" id="claimType" autofocus="autofocus">
+                <p>Data</p>
+                <input type="text" class="" style="box-shadow: white; color: black; width: 100%; margin-top: 4px; margin-bottom: 15px;" id="data" autofocus="autofocus">
+                <button type="button" id="verifyId">Verify identity</button>
+                <button type="button" id="verifyIdByData">Verify Data</button>
+                <h3 id="ans" style="word-break: break-all; white-space: normal;"></h3>
             </div>
         </div>
     </body>
