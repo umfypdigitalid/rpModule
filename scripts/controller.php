@@ -10,7 +10,6 @@ if (isset($_SESSION["uid"]) && isset($_SESSION["retries"]) && isset($_SESSION["c
       $data = array(
         'uid'=>$_SESSION['uid'],
         'retries'=>$_SESSION["retries"],
-        'time'=>$_SESSION["time"],
         'contract_addr'=>$_SESSION["contract_addr"],
         'type'=>$_SESSION["type"],
         'data'=>$_SESSION["data"]
@@ -24,7 +23,6 @@ if (isset($_SESSION["uid"]) && isset($_SESSION["retries"]) && isset($_SESSION["c
     $data = array(
       'uid'=>$_SESSION['uid'],
       'retries'=>$_SESSION["retries"],
-      'time'=>$_SESSION["time"],
       'contract_addr'=>$_SESSION["contract_addr"],
       'type'=>$_SESSION["type"]
     );

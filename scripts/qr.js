@@ -2,13 +2,14 @@
 import { config } from "../nodeScript/config.js";
 import "./webSocket.js";
 
-const refreshTimer = 30;
+const refreshTimer = config.refreshTimer;
 var loop = 0;
-var timeleft = config.refreshTimer;
+var timeleft = refreshTimer;
 var type;
 var selection;
 var session_id;
 var retries = 0;
+var flag = false;
 
 $(document).ready(function(){
     //start();
@@ -20,23 +21,20 @@ $(document).ready(function(){
         url: 'scripts/request.php?session_id=1',
         success: function(data){
             session_id = data;
-            console.log("success: "+session_id);
+            start(1, "11111");
         },
         error: function(data) {
             session_id = -1;
             console.error("error: "+data);
         }
     });
-    var str = QRTextGenerator(retries, session_id, 1, 14);
-    console.log(str);
-    console.log(isASCII(str));
-    console.log(toJSON( str ));
 });
 
 $(function () {
     $('#refresh').click(function () {
         loop = 0;
         reset(type, selection);
+        flag = false;
         countDown();
     });
 });
@@ -64,7 +62,8 @@ function countDown() {
             document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
             timeleft -= 1;
         }
-        if (loop == 3) {
+        if (loop == config.maximumLoop) {
+            flag = true;
             clearInterval(downloadTimer);
             $('#refresh').show();
         }
@@ -105,6 +104,22 @@ selection in int (1 - 15)
     */
     // UID=123456789&attribute=base64()&type=permission
 function QRTextGenerator(retries, uid, type, selection) {
+    if (type !== 1 && type!== 2) throw "Invalid type";
+    if (typeof selection == "string") {
+        console.log("length: "+selection.length);
+        if (selection.length === 5){
+            for (let i = 0; i < selection.length; i++) {
+                if (selection.charAt(i)!=="0" && selection.charAt(i)!=="1")
+                    throw "Invalid selection";
+            }
+        } else {
+            throw "Invalid selection";
+        }
+    } else if (typeof selection !== "undefined" && type === 2) {
+        throw "Invalid parameter";
+    } else if (typeof selection == "undefined" && type === 1){
+        throw "Invalid selection";
+    }
     var json = {};
     json.retry = retries;
     json.uid = uid;
@@ -117,7 +132,7 @@ function QRTextGenerator(retries, uid, type, selection) {
         }
     }
     json.name = config.name;
-    json.reply = config.inetAddr;
+    json.reply = config.requestHandler;
     console.log("JSON: "+JSON.stringify(json));
     return JSON.stringify(json);
 }
@@ -138,8 +153,16 @@ function getSessionID() {
     return session_id;
 }
 
-function getTimeLeft() {
-    return timeleft;
+function getSelection() {
+    return selection;
 }
 
-export {start, getRetries, getSessionID, getTimeLeft};
+function getType() {
+    return type;
+}
+
+function getFlag() {
+    return flag;
+}
+
+export {start, getRetries, getSessionID, getSelection, getType, getFlag};

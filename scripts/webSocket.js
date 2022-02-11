@@ -1,6 +1,6 @@
 import {config} from "../nodeScript/config.js";
 import {verifyClaim, verifyClaimByData} from "./RPmodule.js";
-import {getRetries, getSessionID, getTimeLeft} from "./qr.js";
+import {getRetries, getSessionID, getSelection, getType, getFlag} from "./qr.js";
 import { resource } from "./resource.js";
 
 if(typeof(EventSource) !== "undefined") {
@@ -14,36 +14,42 @@ if(typeof(EventSource) !== "undefined") {
     const session_id = jdata.uid;
     const retries = jdata.retries;
     const contract_addr = jdata.contract_addr;
-    const time = jdata.time;
-    if (!validateAuthentication(session_id, jdata.time, retries)){
-      throw "Authentication takes too long time to proceed, please try again";
+    const selection = getSelection();
+    const type = jdata.type;
+    if (!validateAuthentication(session_id, retries)){
+      throw "Authentication expired, please try again";
     } else {
-      if (jdata.type == 1) {
+      if (jdata.type == 1 && jdata.type === String(getType())) {
+        var max = selection.replaceAll("0", "").length;
+        let counter = 0;
         for (var key in jdata.data) {
-          if (jdata.data[key] !== ""){
+          if (jdata.data[key] !== "" && selection.charAt(resource.CLAIM_TYPE[key]-1) === "1"){
             verifyClaimByData(contract_addr, resource.CLAIM_TYPE[key], jdata.data[key]).then(result => {
               if (result) {
+                counter++;
+                if (counter === max) // Success
+                  window.location.href="http://localhost/rpModule/verified.php";
               } else {
                 // Failed
                 window.location.href = "http://localhost/rpModule/unverified.php";
               }
             });
+          } else if (jdata.data[key] !== "" && selection.charAt(resource.CLAIM_TYPE[key]-1) === "0") {
+            throw "Required attribute not matched";
           }
         }
-        window.location.href="http://localhost/rpModule/verified.php";
-        // Success
-        // console.log("Success");
-      } else if (jdata.type == 2) {
+      } else if (jdata.type == 2 && jdata.type === String(getType())) {
         verifyClaim(contract_addr, 1).then(result => {
           if (result) {
             //Success
             window.location.href="http://localhost/rpModule/verified.php";
           } else {
-            console.error("Identity is not verified");
             // Failed;
             window.location.href="http://localhost/rpModule/unverified.php";
           }
         });
+      } else {
+        throw "Inconsistent type";
       }
     }
     // window.location.href = "index.php";
@@ -53,28 +59,16 @@ if(typeof(EventSource) !== "undefined") {
     e.returnValue = '';
     serv.close();
   });
+} else {
+  console.error("The browser does not support the software, please use another browser");
+}
 
-//Any authentication after 2 seconds will be invalid
-function validateAuthentication(uid, time, retries) {
-  if (uid === getSessionID()) {
+function validateAuthentication(uid, retries) {
+  if (uid === getSessionID() && !getFlag()) {
     if (retries == getRetries()) {
-      if (time - getTimeLeft() <= 2){
-        return true;
-      }
-    }
-    else if (retries - getRetries() == 1) {
-      if ((time - getTimeLeft())%30 <= 2) {
-        return true;
-      }
-    } else {
-      return false;
+      return true;
     }
   } else {
     return false;
   }
 }
-  
-} else {
-  console.log("N/A");
-}
-

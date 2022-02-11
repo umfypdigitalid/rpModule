@@ -48,14 +48,14 @@ async function verifyClaimByData(identity, claimType, data) {
     return validity;
 }
 
-console.log("Address: "+convertData("No 1522 BDC Lorong E1 Taman Satria Jaya Jalan Stutong Stampin 93350 Kuching Sarawak"));
+
 //Convert a data (stringify) into hex
 function convertData(data) {
     if (typeof data !== String) {
         data = String(data);
     } 
-    return web3.utils.asciiToHex(data);
-}
+    return web3.utils.sha3(web3.utils.asciiToHex(data));
+} 
 
 function isAddress(addr) {
     return web3.utils.isAddress(addr);

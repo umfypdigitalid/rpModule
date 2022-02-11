@@ -8,21 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/login2.min.js"></script>
-    <script type="text/javascript" src="scripts/jquery.qrcode.js"></script>
     <script type="text/javascript" src="scripts/qrcode.vid.js"></script>
-    <script type="text/javascript" src="plugin/js-cookie-1.5.1/src/js.cookie.js"></script>
+    <script type="text/javascript" src="scripts/jquery.qrcode.js"></script>
     <script type="text/javascript">
     <?php 
     session_start();
     session_regenerate_id();
-    
     ?>
     </script>
     
     <script type='module'>
-        import {start, getRetries, getSessionID, getTimeLeft} from "./scripts/qr.js";
-        <?php $_SESSION['any'] = "Test"; ?>
-        start(1, 11011);
+        import {start, getRetries, getSessionID} from "./scripts/qr.js";
         $(document).ready(function(){
             $('#login-form').show();
             $('#not-verified').hide();
@@ -77,16 +73,49 @@
                 post_data.retries = getRetries();
                 post_data.contract_addr = $("#contract_addr_input").val();
                 post_data.type = $("#type").val();
-                post_data.time = getTimeLeft();
                 if ($("#type").val() == 1){
                     post_data.data = {};
-                    post_data.data.IC = $("#IC_input").val();
-                    post_data.data.Name = $("#name_input").val();
-                    post_data.data.DOB = $("#dob_input").val();
-                    post_data.data.Gender = $("#gender_input").val();
-                    post_data.data.Address = $("#addr_input").val();
+                    if ($("#IC_input").val() !== "")
+                        post_data.data.IC = $("#IC_input").val();
+                    if ($("#name_input").val() !== "")
+                        post_data.data.Name = $("#name_input").val();
+                    if ($("#dob_input").val() !== "")
+                        post_data.data.DOB = $("#dob_input").val();
+                    if ($("#gender_input").val() !== "")
+                        post_data.data.Gender = $("#gender_input").val();
+                    if ($("#addr_input").val() !== "")
+                        post_data.data.Address = $("#addr_input").val();
                 }
-                console.log(post_data);
+                $.ajax({
+                    type: "POST",
+                    url: 'http://localhost/rpModule/scripts/request.php',
+                    data: post_data,
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+            var hexedData = web3.utils.asciiToHex(name);
+            var hashedData = web3.utils.sha3(hexedData);
+            $("#scan-wrong").click(function(){
+                var post_data = {};
+                post_data.uid = getSessionID();
+                post_data.retries = getRetries();
+                post_data.contract_addr = $("#contract_addr_input").val();
+                post_data.type = 1;
+                if ($("#type").val() == 2){
+                    post_data.data = {};
+                    if ($("#IC_input").val() !== "")
+                        post_data.data.IC = $("#IC_input").val();
+                    if ($("#name_input").val() !== "")
+                        post_data.data.Name = $("#name_input").val();
+                    if ($("#dob_input").val() !== "")
+                        post_data.data.DOB = $("#dob_input").val();
+                    if ($("#gender_input").val() !== "")
+                        post_data.data.Gender = $("#gender_input").val();
+                    if ($("#addr_input").val() !== "")
+                        post_data.data.Address = $("#addr_input").val();
+                }
                 $.ajax({
                     type: "POST",
                     url: 'http://localhost/rpModule/scripts/request.php',
@@ -126,8 +155,8 @@
                 <div id="qrcodeCanvas"></div>
             </div>
             <div style='right: auto;'><button type='button' id='back' >Back</button></div>
-            <button type='button' id='refresh' onclick="<?php session_regenerate_id();?>">Refresh</button>
-            <button type='button' id='scan-correct'>Scan</button>
+            <button type='button' id='refresh'>Refresh</button>
+            <button type='button' id='scan-correct'>Scan</button><button type='button' id='scan-wrong'>Scan customized</button>
             <div id="countdown"></div>
         </div>
     </div>
@@ -135,7 +164,7 @@
         <label class="d">
             Identity Contract
         </label>
-        <input type="text" id="contract_addr_input" value="0xcC2aeEAb3dF9e54904Dd6Ddead845Daf9cCb6E68" autofocus="autofocus"  style="width: 400px; margin-bottom: 10px;" >
+        <input type="text" id="contract_addr_input" value="0xBE5371d0eDAa1e4ac08423806970BFD04e4d3a27" autofocus="autofocus"  style="width: 400px; margin-bottom: 10px;" >
     </div>
     <div id="type_input">
         <label class="d">
@@ -150,19 +179,19 @@
         <label class="d">
             IC
         </label>
-        <input type="text" id="IC_input"  autofocus="autofocus" value="510317135131" style="width: 400px; margin-bottom: 10px;" >
+        <input type="text" id="IC_input"  autofocus="autofocus" value="550106125821" style="width: 400px; margin-bottom: 10px;" >
     </div>
     <div id="name">
         <label class="d">
             Name
         </label>
-        <input type="text" id="name_input"  autofocus="autofocus" value="Dato Hussin"  style="width: 400px; margin-bottom: 10px;" >
+        <input type="text" id="name_input"  autofocus="autofocus" value="Rowan Sebastian Atkinson"  style="width: 400px; margin-bottom: 10px;" >
     </div>
     <div id="dob">
         <label class="d">
             DOB
         </label>
-        <input type="text" id="dob_input"  autofocus="autofocus" value="1951-03-17" style="width: 400px; margin-bottom: 10px;" >
+        <input type="text" id="dob_input"  autofocus="autofocus" value="1955-01-06" style="width: 400px; margin-bottom: 10px;" >
     </div>
     <div id="gender">
         <label class="d">
@@ -178,7 +207,7 @@
         <label class="d">
             Address
         </label>
-        <input type="text" id="addr_input"  autofocus="autofocus" value="No 1522 BDC Lorong E1 Taman Satria Jaya Jalan Stutong Stampin 93350 Kuching Sarawak" style="width: 400px; margin-bottom: 10px;" >
+        <input type="text" id="addr_input"  autofocus="autofocus" value="GDW Kampung Bayangan 80000 Keningau Sabah" style="width: 400px; margin-bottom: 10px;" >
     </div>
 
     <div style="margin-left: 20px;">

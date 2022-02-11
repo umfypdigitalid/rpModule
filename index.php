@@ -26,21 +26,6 @@
     <link rel="stylesheet" href="resources/styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <script src="nodeScript/connector.js" type="module"></script> -->
-    <!-- <script src="scripts/webSocket.js" type="javascript"></script> -->
-    <!-- <script type="module">
-        import {CVC} from "./nodeScript/connector.js";
-        const num1 = 20;
-        const num2 = 21;
-        console.log(num1+' is '+CVC.methods.verifier(num1).call());
-        console.log(num2+' is ');
-        CVC.methods.verifier(num2).call().then(
-            function(value){
-                console.log(num2+" is "+value)
-            }
-        );
-        
-    </script> -->
 </head>
 
 <body>
